@@ -141,6 +141,34 @@
             color: white;
         }
 
+        .chat-message {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .user-message {
+            border-left: 4px solid var(--primary-color);
+            margin-left: 20px;
+        }
+
+        .ai-message {
+            border-left: 4px solid var(--accent-color);
+            margin-right: 20px;
+        }
+
+        .message-header {
+            font-size: 0.9em;
+            color: var(--secondary-text);
+            margin-bottom: 8px;
+        }
+
+        .message-content {
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
         .char-counter {
             position: absolute;
             bottom: 10px;
@@ -197,42 +225,41 @@
             font-size: 16px;
             resize: vertical;
             transition: all 0.3s ease;
-            backdrop-filter: blur(0px);
-            /* backdrop-filter: blur(2px); */
-        }
-        
+                }
+
         textarea:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 20px rgba(114,137,218,0.3);
             transform: scale(1.01);
-            backdrop-filter: blur(0px);
         }
         
         .button-container {
             display: flex;
             gap: 10px;
             margin-top: 20px;
-            flex-wrap: wrap;
         }
 
         .action-button {
-            padding: 12px 24px;
+            flex: 1;
+            padding: 12px 20px;
             border: none;
             border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-                        gap: 8px;
-            transition: all 0.3s ease;
             background: var(--primary-color);
             color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .action-button:hover {
+            background: var(--secondary-color);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(114,137,218,0.4);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .action-button i {
@@ -248,128 +275,77 @@
             background: rgba(255,255,255,0.1);
         }
 
-        .response-container {
-            position: relative;
-            height: 300px;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary-color) rgba(255,255,255,0.1);
-        }
-        .response-container::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        .response-container::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-        }
-        
-        .response-container::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 4px;
-        }
-        
-        .response-container::-webkit-scrollbar-thumb:hover {
-            background: var(--secondary-color);
-        }
-        
         #response {
-            white-space: pre-wrap;
-            line-height: 1.6;
-            font-size: 16px;
-            color: var(--text-color);
-            padding-right: 10px;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
-        
-        .loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+
+        #loading {
             display: none;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
         }
 
-        .loading.active {
-            display: block;
-        }
-
-        .loading::after {
-            content: '';
-            display: block;
-            width: 40px;
-            height: 40px;
+        .loader {
+            border: 5px solid rgba(255,255,255,0.1);
+            border-top: 5px solid var(--primary-color);
             border-radius: 50%;
-            border: 3px solid var(--primary-color);
-            border-color: var(--primary-color) transparent var(--primary-color) transparent;
-            animation: loading 1.2s linear infinite;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
         }
 
-        @keyframes loading {
+        @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        .settings-panel {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 230px;
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.05);
-            z-index: 1000;
-            transform: translateX(150%);
-            transition: transform 0.3s ease;
-            visibility: hidden;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .settings-panel.active {
-            transform: translateX(0);
-            visibility: visible;
-            opacity: 1;
-        }
-
         .settings-toggle {
             position: fixed;
-            top: 20px;
+            bottom: 20px;
             right: 20px;
-            background: var(--primary-color);
-            border: none;
-            border-radius: 50%;
             width: 50px;
             height: 50px;
-            cursor: pointer;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1001;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        .settings-toggle i {
-            color: white;
-            font-size: 24px;
-            transition: transform 0.3s ease;
+        .settings-toggle:hover {
+            transform: scale(1.1);
         }
 
-        .settings-toggle.active i {
-            transform: rotate(180deg);
+        .settings-panel {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: var(--bg-darker);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            display: none;
         }
-        
+
+        .settings-panel.active {
+            display: block;
+        }
+
         .theme-toggle {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .theme-toggle label {
-            cursor: pointer;
         }
 
         .switch {
@@ -421,212 +397,97 @@
             .container {
                 flex-direction: column;
             }
-            .column {
-                width: 100%;
-            }
-            .header {
-                padding: 15px 0;
-            }
-            .logo-image {
-                width: 80px;
-                height: 80px;
-            }
-            .logo-text {
-                font-size: 24px;
-            }
-            .settings-panel {
-                top: auto;
-                bottom: 80px;
-                right: 20px;
-                width: calc(100% - 40px);
-                max-width: 300px;
-                transform: translateY(150%);
-                visibility: hidden;
-                opacity: 0;
-            }
-            
-            .settings-panel.active {
-                transform: translateY(0);
-                visibility: visible;
-                opacity: 1;
-            }
-            
-            .settings-toggle {
-                top: auto;
-                bottom: 20px;
-                right: 20px;
-            }
-        }
-        
-        .max-chars-info {
-            text-align: center;
-            color: var(--secondary-text);
-            font-size: 14px;
-            margin: 20px 0;
-            padding: 10px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 8px;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 30px;
-            color: var(--secondary-text);
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        footer p {
-            font-size: 14px;
-        }
-        
-        .puter-info {
-            margin-top: 8px;
-            font-size: 12px;
-            color: var(--secondary-text);
-        }
-        
-        .puter-info a {
-            color: var(--primary-color);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .puter-info a:hover {
-            color: var(--text-color);
-            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="logo-container">
-            <h1 class="logo-text">Aknyzor AI Bot</h1>
             <img src="https://i.imgur.com/inBy772.gif" alt="Aknyzor Logo" class="logo-image">
+            <h1 class="logo-text">Aknyzor AI Bot</h1>
         </div>
     </header>
 
     <div class="container">
         <div class="column">
             <div class="column-header">
-                <i class="fas fa-comment"></i>
-                <h2>Input</h2>
+                <i class="fas fa-robot"></i>
+                <h2>Chat with AI</h2>
             </div>
             <div class="model-selector">
-                <button id="claudeButton" class="model-button active" data-model="claude">
-                    <i class="fas fa-robot"></i>
-                    Claude 3.5 Sonnet
+                <button class="model-button active" data-model="claude" data-tippy-content="Switch to Claude 3.5 Sonnet">
+                    <i class="fas fa-brain"></i> Claude 3.5 Sonnet
                 </button>
-                <button id="gptButton" class="model-button" data-model="gpt">
-                    <i class="fas fa-brain"></i>
-                    ChatGPT 4o
+                <button class="model-button" data-model="gpt" data-tippy-content="Switch to GPT-4o">
+                    <i class="fas fa-microchip"></i> GPT-4o
                 </button>
             </div>
-            <textarea id="inputText" placeholder="Enter your prompt here..."></textarea>
-            <div id="charCount" class="char-counter">0 / 5000</div>
-            <div id="charWarning" style="display: none; color: var(--warning-color);">Warning: Character limit reached!</div>
+            <textarea id="inputText" placeholder="Type your message here..."></textarea>
+            <div class="char-counter" id="charCount">0 / 5000</div>
+            <div id="charWarning" style="display: none; color: var(--warning-color);">Maximum character limit reached!</div>
             <div class="button-container">
-                <button id="submit" class="action-button" onclick="processInput()">
-                    <i class="fas fa-paper-plane"></i>
-                    Submit
+                <button class="action-button" onclick="processInput()" data-tippy-content="Send message">
+                    <i class="fas fa-paper-plane"></i> Send
                 </button>
-                <button id="clear" class="action-button secondary-button" onclick="clearAll()">
-                    <i class="fas fa-trash"></i>
-                    Clear
+                <button class="action-button secondary-button" onclick="clearAll()" data-tippy-content="Clear chat">
+                    <i class="fas fa-trash"></i> Clear
                 </button>
             </div>
         </div>
         
         <div class="column">
             <div class="column-header">
-                <i class="fas fa-robot"></i>
-                <h2>Response</h2>
+                <i class="fas fa-comment-dots"></i>
+                <h2>AI Response</h2>
             </div>
-            <div class="response-container">
-                <div id="response"></div>
-                <div id="loading" class="loading"></div>
+            <div id="response"></div>
+            <div id="loading">
+                <div class="loader"></div>
             </div>
             <div class="button-container">
-                <button id="copy" class="action-button secondary-button" onclick="copyResponse()">
-                    <i class="fas fa-copy"></i>
-                    Copy
+                <button class="action-button" onclick="copyToClipboard()" data-tippy-content="Copy response to clipboard">
+                    <i class="fas fa-copy"></i> Copy
                 </button>
-                <button id="save" class="action-button secondary-button" onclick="saveResponse()">
-                    <i class="fas fa-download"></i>
-                    Save
+                <button class="action-button secondary-button" onclick="downloadPDF()" data-tippy-content="Download as PDF">
+                    <i class="fas fa-file-pdf"></i> Download PDF
                 </button>
             </div>
         </div>
-            </div>
-
     </div>
 
-    <div class="max-chars-info">
-        Maximum 5000 characters including prompt. AI may make mistakes, always verify the response.
-    </div>
-
-    <footer>
-        <p>&copy; 2024 Aknyzor. All rights reserved.</p>
-        <p class="puter-info">Powered by <a href="https://developer.puter.com" target="_blank">developer.puter.com</a></p>
-    </footer>
-
-    <button class="settings-toggle">
+    <div class="settings-toggle" onclick="toggleSettings()" data-tippy-content="Settings">
         <i class="fas fa-cog"></i>
-    </button>
+    </div>
 
-    <div class="settings-panel">
+    <div class="settings-panel" id="settingsPanel">
         <div class="theme-toggle">
-            <label>Dark Mode</label>
+            <span>Dark Mode</span>
             <label class="switch">
-                <input type="checkbox" id="theme-toggle" checked>
+                <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
                 <span class="slider"></span>
-            </label>
+                            </label>
         </div>
     </div>
 
     <script src="https://js.puter.com/v2/"></script>
     <script>
         let currentModel = 'claude';
-        const MAX_CHARS = 5000;
-        const inputText = document.getElementById('inputText');
-        const charCount = document.getElementById('charCount');
-        const charWarning = document.getElementById('charWarning');
+        const maxChars = 5000;
 
-        // Theme toggle functionality
-        const themeToggle = document.getElementById('theme-toggle');
-        const body = document.body;
-
-        themeToggle.addEventListener('change', () => {
-            body.classList.toggle('light-mode');
+        document.addEventListener('DOMContentLoaded', function() {
+            tippy('[data-tippy-content]');
+            document.getElementById('inputText').addEventListener('input', updateCharCount);
         });
-
-        // Settings panel toggle
-        const settingsToggle = document.querySelector('.settings-toggle');
-        const settingsPanel = document.querySelector('.settings-panel');
-
-        settingsToggle.addEventListener('click', () => {
-            settingsToggle.classList.toggle('active');
-            settingsPanel.classList.toggle('active');
-        });
-
-        // Model selector
-        const modelButtons = document.querySelectorAll('.model-button');
-
-        modelButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                modelButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                currentModel = button.dataset.model;
-            });
-        });
-
-        inputText.addEventListener('input', updateCharCount);
 
         function updateCharCount() {
-            const count = inputText.value.length;
-            charCount.textContent = `${count} / ${MAX_CHARS}`;
-            
-            if (count >= MAX_CHARS) {
+            const input = document.getElementById('inputText');
+            const charCount = document.getElementById('charCount');
+            const charWarning = document.getElementById('charWarning');
+            const count = input.value.length;
+
+            charCount.textContent = `${count} / ${maxChars}`;
+
+            if (count > maxChars) {
                 charCount.classList.add('warning');
                 charWarning.style.display = 'block';
             } else {
@@ -635,13 +496,19 @@
             }
         }
 
-        async function streamClaudeResponse(input) {
-            const responseDiv = document.getElementById('response');
-            const loadingDiv = document.getElementById('loading');
-            
-            responseDiv.innerHTML = '';
-            loadingDiv.classList.add('active');
+        async function processInput() {
+            const input = document.getElementById('inputText').value;
+            if (input.trim() === '') return;
 
+            document.getElementById('response').innerHTML += `
+                <div class="chat-message user-message">
+                    <div class="message-header">You:</div>
+                    <div class="message-content">${input}</div>
+                </div>
+            `;
+
+            document.getElementById('loading').style.display = 'flex';
+            
             try {
                 let response;
                 if (currentModel === 'claude') {
@@ -656,78 +523,74 @@
                     });
                 }
 
+                let aiResponse = '';
+                let aiMessageElement = document.createElement('div');
+                aiMessageElement.className = 'chat-message ai-message';
+                aiMessageElement.innerHTML = `
+                    <div class="message-header">${currentModel === 'claude' ? 'Claude 3.5 Sonnet' : 'GPT-4'}:</div>
+                    <div class="message-content"></div>
+                `;
+                document.getElementById('response').appendChild(aiMessageElement);
+
                 for await (const part of response) {
                     if (part?.text) {
-                        responseDiv.innerHTML += part.text;
-                        responseDiv.parentElement.scrollTop = responseDiv.parentElement.scrollHeight;
+                        aiResponse += part.text;
+                        aiMessageElement.querySelector('.message-content').innerHTML = aiResponse;
                     }
                 }
             } catch (error) {
-                responseDiv.innerHTML = `<span style="color: var(--warning-color);">Error: ${error.message}</span>`;
+                console.error('Error:', error);
+                document.getElementById('response').innerHTML += `
+                    <div class="chat-message ai-message">
+                        <div class="message-header">Error:</div>
+                        <div class="message-content">Sorry, there was an error processing your request.</div>
+                    </div>
+                `;
             } finally {
-                loadingDiv.classList.remove('active');
+                document.getElementById('loading').style.display = 'none';
             }
-        }
 
-        function processInput() {
-            const inputValue = inputText.value.trim();
-            if (inputValue) {
-                if (inputValue.length <= MAX_CHARS) {
-                    streamClaudeResponse(inputValue);
-                } else {
-                    alert(`Please limit your input to ${MAX_CHARS} characters.`);
-                }
-            } else {
-                alert('Please enter some text first!');
-            }
-        }
-
-        async function copyResponse() {
-            const responseText = document.getElementById('response').textContent;
-            if (responseText) {
-                try {
-                    await navigator.clipboard.writeText(responseText);
-                    const copyBtn = document.getElementById('copy');
-                    const originalHTML = copyBtn.innerHTML;
-                    copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                    copyBtn.style.background = '#4CAF50';
-                    
-                    setTimeout(() => {
-                        copyBtn.innerHTML = originalHTML;
-                        copyBtn.style.background = '';
-                    }, 2000);
-                } catch (err) {
-                    alert('Failed to copy text. Please try again.');
-                }
-            } else {
-                alert('There is no response to copy!');
-            }
-        }
-
-        function saveResponse() {
-            const responseText = document.getElementById('response').textContent;
-            if (responseText) {
-                const blob = new Blob([responseText], { type: 'text/plain' });
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'ai-response.txt';
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-            } else {
-                alert('There is no response to save!');
-            }
+            document.getElementById('inputText').value = '';
+            updateCharCount();
         }
 
         function clearAll() {
-            inputText.value = '';
+            document.getElementById('inputText').value = '';
             document.getElementById('response').innerHTML = '';
             updateCharCount();
         }
 
-        updateCharCount();
+        function copyToClipboard() {
+            const responseText = document.getElementById('response').innerText;
+            navigator.clipboard.writeText(responseText).then(() => {
+                alert('Response copied to clipboard!');
+            });
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const responseText = document.getElementById('response').innerText;
+            
+            doc.text(responseText, 10, 10);
+            doc.save('ai_response.pdf');
+        }
+
+        function toggleSettings() {
+            document.getElementById('settingsPanel').classList.toggle('active');
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+        }
+
+        document.querySelectorAll('.model-button').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.model-button').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                currentModel = this.dataset.model;
+            });
+        });
     </script>
 </body>
 </html>
