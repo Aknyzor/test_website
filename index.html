@@ -17,7 +17,7 @@
             --bg-darker: #121212;
             --text-color: #ffffff;
             --secondary-text: #a0a0a0;
-            --warning-color: #ff5555;
+            --warning-color: #f0f0f0;
         }
 
         .light-mode {
@@ -398,6 +398,24 @@
                 flex-direction: column;
             }
         }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            margin-top: 30px;
+        }
+        
+        .disclaimer {
+            margin-bottom: 10px;
+            color: var(--warning-color);
+        }
+        
+        .copyright {
+            font-size: 0.9em;
+            color: var(--secondary-text);
+        }
+        
     </style>
 </head>
 <body>
@@ -468,6 +486,15 @@
                             </label>
         </div>
     </div>
+    
+    <footer>
+        <div class="disclaimer">
+            <p><strong>Disclaimer:</strong> AI can make mistakes. Always verify information from reliable sources.</p>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 Aknyzor. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script src="https://js.puter.com/v2/"></script>
     <script>
