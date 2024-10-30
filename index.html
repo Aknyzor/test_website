@@ -196,15 +196,17 @@
             color: var(--text-color);
             font-size: 16px;
             resize: vertical;
-            backdrop-filter: blur(5px);
             transition: all 0.3s ease;
+            backdrop-filter: blur(0px);
+            /* backdrop-filter: blur(2px); */
         }
-
+        
         textarea:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 20px rgba(114,137,218,0.3);
             transform: scale(1.01);
+            backdrop-filter: blur(0px);
         }
         
         .button-container {
