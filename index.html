@@ -281,10 +281,11 @@
         }
 
         .max-chars-info {
-            font-size: 14px;
-            color: var(--secondary-text);
-            margin-top: 10px;
             text-align: center;
+            color: var(--secondary-text);
+            font-size: 0.9em;
+            margin-top: 10px;
+            font-style: italic;
         }
 
         ::-webkit-scrollbar {
@@ -313,6 +314,14 @@
             .column {
                 margin-bottom: 20px;
             }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--secondary-text);
+            font-size: 0.9em;
+            margin-top: 40px;
         }
     </style>
 </head>
@@ -381,8 +390,12 @@
     </div>
 
     <div class="max-chars-info">
-        Maximum 5000 characters including prompt.
+        Maximum 5000 characters including prompt. AI may make mistakes, always verify the response.
     </div>
+
+    <footer>
+        <p>&copy; 2023 Aknyzor. All rights reserved.</p>
+    </footer>
 
     <script src="https://js.puter.com/v2/"></script>
     <script>
