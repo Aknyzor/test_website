@@ -246,18 +246,39 @@
             background: rgba(255,255,255,0.1);
         }
 
+        .response-container {
+            position: relative;
+            height: 300px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) rgba(255,255,255,0.1);
+        }
+        .response-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .response-container::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+        }
+        
+        .response-container::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .response-container::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+        
         #response {
             white-space: pre-wrap;
             line-height: 1.6;
             font-size: 16px;
             color: var(--text-color);
+            padding-right: 10px;
         }
-
-        .response-container {
-            position: relative;
-            min-height: 300px;
-        }
-
+        
         .loading {
             position: absolute;
             top: 50%;
