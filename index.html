@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aknyzor AI Bot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #7289da;
+            --secondary-color: #5b73d1;
+            --accent-color: #ff7eb6;
+            --bg-dark: #1a1a1a;
+            --bg-darker: #121212;
+            --text-color: #ffffff;
+            --secondary-text: #a0a0a0;
+            --warning-color: #ff5555;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            background: linear-gradient(to bottom, var(--bg-darker), rgba(18,18,18,0.95));
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .logo-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 0px;
+        }
+
+        .model-selector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+        
+        .model-button {
+            background: rgba(18, 18, 18, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            border-radius: 10px;
+            color: var(--secondary-text);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 220px; /* Fiksna širina za oba dugmeta */
+            height: 60px; /* Fiksna visina za oba dugmeta */
+            text-align: center;
+        }
+        
+        .model-button i {
+            margin-right: 10px;
+        }
+
+        .model-button.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(114,137,218,0.3);
+        }
+
+        .model-button:hover {
+            transform: translateY(-2px);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 600;
+            background: linear-gradient(45deg, var(--primary-color), #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .column {
+            flex: 1;
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .column:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .column-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .column-header i {
+            font-size: 24px;
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .column-header h2 {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            color: var(--text-color);
+            font-size: 16px;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(114,137,218,0.3);
+            transform: scale(1.01);
+        }
+
+        .button-container {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            gap: 15px;
+        }
+
+        button {
+            background: linear-gradient(45deg, var(--primary-color), #5b73d1);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(114,137,218,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover::after {
+            left: 100%;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #5b73d1, var(--primary-color));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(114,137,218,0.4);
+        }
+
+        .response-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 500px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(114,137,218,0.2);
+            border-radius: 10px;
+            padding: 15px;
+            background: rgba(255,255,255,0.02);
+        }
+
+        #response {
+                        white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.6;
+        }
+
+        .loading {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            color: var(--secondary-text);
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .copy-button, .clear-button {
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: none;
+        }
+
+        .copy-button:hover, .clear-button:hover {
+            background: rgba(114,137,218,0.1);
+        }
+
+        #charCount {
+            font-size: 14px;
+            color: var(--secondary-text);
+            margin-top: 10px;
+        }
+
+        #charWarning {
+            color: var(--warning-color);
+            font-weight: bold;
+            display: none;
+        }
+
+        .max-chars-info {
+            font-size: 14px;
+            color: var(--secondary-text);
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, var(--primary-color), #5b73d1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #5b73d1, var(--primary-color));
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .column {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-container">
+            <div class="logo-image-container">
+                <img src="https://i.imgur.com/inBy772.gif" alt="Aknyzor Bot Logo" class="logo-image">
+            </div>
+            <div class="logo-text">
+                Aknyzor AI Bot
+            </div>
+        </div>
+    </div>
+
+    <div class="model-selector">
+        <button id="claudeButton" class="model-button active" onclick="setModel('claude')">
+            <i class="fas fa-robot"></i>
+            Claude 3.5 Sonnet
+        </button>
+        <button id="gptButton" class="model-button" onclick="setModel('gpt')">
+            <i class="fas fa-brain"></i>
+            ChatGPT 4o
+        </button>
+    </div>
+
+    <div class="container">
+        <div class="column">
+            <div class="column-header">
+                <i class="fas fa-keyboard"></i>
+                <h2>Input</h2>
+            </div>
+            <textarea id="inputText" placeholder="Enter your prompt here..." maxlength="5000"></textarea>
+            <div id="charCount">Characters: 0 / 5000</div>
+            <div id="charWarning">Warning: Character limit reached!</div>
+            <div class="button-container">
+                <button onclick="processInput()">
+                    <i class="fas fa-paper-plane"></i>
+                    Generate Response
+                </button>
+                <button class="clear-button" onclick="clearAll()">
+                    <i class="fas fa-trash"></i>
+                    Clear All
+                </button>
+                <div id="loading" class="loading">
+                    <i class="fas fa-circle-notch"></i>
+                    Processing...
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="column-header">
+                <i class="fas fa-robot"></i>
+                <h2>AI Response</h2>
+            </div>
+            <div class="response-container">
+                <div id="response"></div>
+            </div>
+            <div class="button-container">
+                <button class="copy-button" onclick="copyResponse()">
+                    <i class="fas fa-copy"></i>
+                    Copy Response
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-chars-info">
+        Maximum 5000 characters including prompt.
+    </div>
+
+    <script src="https://js.puter.com/v2/"></script>
+    <script>
+        let currentModel = 'claude'; // Default model
+        const MAX_CHARS = 5000;
+        const inputText = document.getElementById('inputText');
+        const charCount = document.getElementById('charCount');
+        const charWarning = document.getElementById('charWarning');
+
+        function setModel(model) {
+            currentModel = model;
+            document.getElementById('claudeButton').classList.toggle('active', model === 'claude');
+            document.getElementById('gptButton').classList.toggle('active', model === 'gpt');
+        }
+
+        inputText.addEventListener('input', updateCharCount);
+
+        function updateCharCount() {
+            const count = inputText.value.length;
+            charCount.textContent = `Characters: ${count} / ${MAX_CHARS}`;
+            
+            if (count >= MAX_CHARS) {
+                charWarning.style.display = 'block';
+            } else {
+                charWarning.style.display = 'none';
+            }
+        }
+
+        async function streamClaudeResponse(input) {
+            const responseDiv = document.getElementById('response');
+            const loadingDiv = document.getElementById('loading');
+            
+            responseDiv.innerHTML = '';
+            loadingDiv.style.display = 'flex';
+
+            try {
+                let response;
+                if (currentModel === 'claude') {
+                    response = await puter.ai.chat(input, {
+                        model: 'claude-3-5-sonnet',
+                        stream: true
+                    });
+                } else {
+                    response = await puter.ai.chat(input, {
+                        model: 'gpt-4',
+                        stream: true
+                    });
+                }
+
+                for await (const part of response) {
+                    if (part?.text) {
+                        responseDiv.innerHTML += part.text;
+                        responseDiv.parentElement.scrollTop = responseDiv.parentElement.scrollHeight;
+                    }
+                }
+            } catch (error) {
+                responseDiv.innerHTML = `<span style="color: #ff5555;">Error: ${error.message}</span>`;
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        }
+
+        function processInput() {
+            const inputText = document.getElementById('inputText').value.trim();
+            if (inputText) {
+                if (inputText.length <= MAX_CHARS) {
+                    streamClaudeResponse(inputText);
+                } else {
+                    alert(`Please limit your input to ${MAX_CHARS} characters.`);
+                }
+            } else {
+                alert('Please enter some text first!');
+            }
+        }
+
+        async function copyResponse() {
+            const responseText = document.getElementById('response').innerText;
+            if (responseText) {
+                try {
+                    await navigator.clipboard.writeText(responseText);
+                    
+                    const copyButton = document.querySelector('.copy-button');
+                    const originalHTML = copyButton.innerHTML;
+                    copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    copyButton.style.background = '#4CAF50';
+                    copyButton.style.borderColor = '#4CAF50';
+                    copyButton.style.color = 'white';
+                    
+                                        setTimeout(() => {
+                        copyButton.innerHTML = originalHTML;
+                        copyButton.style.background = '';
+                        copyButton.style.borderColor = '';
+                        copyButton.style.color = '';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    alert('Failed to copy text. Please try again.');
+                }
+            } else {
+                alert('There is no response to copy!');
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('response').innerHTML = '';
+            updateCharCount();
+        }
+
+        // Initialize character count on page load
+        updateCharCount();
+    </script>
+</body>
+</html>
