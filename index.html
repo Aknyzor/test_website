@@ -66,12 +66,23 @@
 
         .disclaimer {
             margin-bottom: 10px;
-            color: var(--warning-color);
+            color: var(--secondary-text);
         }
 
         .copyright {
             font-size: 0.9em;
             color: var(--secondary-text);
+        }
+
+        .copy-icon {
+            cursor: pointer;
+            margin-left: 10px;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .copy-icon:hover {
+            opacity: 1;
         }
 
         .sidebar {
@@ -135,13 +146,18 @@
         }
 
         .model-btn {
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-color);
+        cursor: pointer;
+        transition: all 0.3s ease, transform 0.2s ease;
+        }
+
+        .model-btn:hover {
+            background: var(--primary-color);
+            transform: scale(1.05);
         }
 
         .model-btn.active {
@@ -217,16 +233,17 @@
             padding: 20px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
-            margin-top: 20px;
+            margin-top: 50px;
+            margin-bottom: 150px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
         }
 
         .character-counter {
             position: absolute;
-            top: -25px;
+            top: -35px;
             right: 10px;
-            font-size: 0.9em;
+            font-size: 1.0em;
             color: var(--secondary-text);
             background: rgba(0, 0, 0, 0.2);
             padding: 4px 8px;
@@ -309,11 +326,11 @@
             gap: 8px;
             font-weight: 600;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease, transform 0.2s ease;
         }
 
         .new-chat-btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-2px) scale(1.05);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
             background: var(--secondary-color);
         }
@@ -550,6 +567,14 @@
             header.classList.add('message-header');
             header.textContent = sender === 'user' ? 'You' : 'AI';
 
+            if (sender === 'ai') {
+                const copyIcon = document.createElement('i');
+                copyIcon.classList.add('fas', 'fa-copy', 'copy-icon');
+                copyIcon.title = 'Copy to clipboard';
+                copyIcon.onclick = function() { copyToClipboard(content); };
+                header.appendChild(copyIcon);
+            }
+
             const messageContent = document.createElement('div');
             messageContent.classList.add('message-content');
 
@@ -599,6 +624,17 @@
                 }
             }
         });
+
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            //alert('Text copied to clipboard!')
+        }
 
         // Initialize
         startNewChat();
